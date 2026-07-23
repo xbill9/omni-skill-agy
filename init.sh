@@ -70,7 +70,7 @@ EOF
     echo
     if [ "$ERRORS" -eq 0 ]; then
         echo "--- Full setup complete ---"
-        echo "Restart Claude Code in $SCRIPT_DIR and approve the project MCP server;"
+        echo "Restart Antigravity CLI in $SCRIPT_DIR and approve the project MCP server;"
         echo "/mcp should list 'omni-video-agent'. To install the skill into another"
         echo "project: ./project-setup.sh /path/to/project (or make init TARGET=...)."
     else

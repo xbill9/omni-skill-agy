@@ -5,7 +5,7 @@ The repo root is the authoritative skill bundle (SKILL.md, mcp/, references/).
 Regenerates:
   mcp/server.py                        from  server.py
   mcp/requirements.txt                 from  requirements.txt
-  .claude/skills/omni-video/           assembled from SKILL.md + mcp/ + references/
+  .gemini/skills/omni-video/           assembled from SKILL.md + mcp/ + references/
 
 SKILL.md, mcp/project-setup.sh, and references/*.md are hand-maintained sources
 and copied as-is. The plugin copy in skills/ is synced by `make skill`.
@@ -16,7 +16,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
-SKILL = ROOT / ".claude" / "skills" / "omni-video"
+SKILL = ROOT / ".gemini" / "skills" / "omni-video"
 
 
 def main() -> int:

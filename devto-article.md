@@ -1,14 +1,14 @@
 ---
-title: "Teaching Claude Code to Direct: A Stateful Video-Editing Skill Built on Gemini's Interactions API and MCP"
+title: "Teaching Antigravity to Direct: A Stateful Video-Editing Skill Built on Gemini's Interactions API and MCP"
 published: false
-description: "How omni-skill-claude packages Google's gemini-omni-flash-preview as a Claude Code skill + MCP server — what Omni Flash actually does, a field guide to all eight tool calls, multi-turn stateful edits, an idiot-proof install guide, and a one-tool-call path to YouTube."
-tags: ai, claudecode, gemini, mcp
-cover_image: https://raw.githubusercontent.com/xbill9/omni-skill-claude/main/devto-cover.jpg
+description: "How omni-skill-agy packages Google's gemini-omni-flash-preview as an Antigravity CLI skill + MCP server — what Omni Flash actually does, a field guide to all eight tool calls, multi-turn stateful edits, an idiot-proof install guide, and a one-tool-call path to YouTube."
+tags: ai, gemini, mcp, antigravity
+cover_image: https://raw.githubusercontent.com/xbill9/omni-skill-agy/main/devto-cover.jpg
 ---
 
 <!-- Done: real tool output in Dogfooding; devto-cover.jpg (frame at 2s of gen_1784824947.mp4); edit_1784825027.mp4 uploaded to YouTube (unlisted, bPBOgchoA_A) via upload_to_youtube and embedded in Dogfooding. -->
 
-> **TL;DR:** [omni-skill-claude](https://github.com/xbill9/omni-skill-claude) wraps Google's `gemini-omni-flash-preview` model (Omni Flash) in a tiny FastMCP server and packages it as a Claude Code skill. You type "generate a video of a fox running through snow" into Claude Code, and it just... does it. Then you say "make it nighttime with snowfall" and it edits *the same video* without re-prompting the whole scene. It can also animate a still image, interpolate between two keyframes, restyle a video you already have — and when you're happy, upload the result to YouTube. Without leaving your terminal.
+> **TL;DR:** [omni-skill-agy](https://github.com/xbill9/omni-skill-agy) wraps Google's `gemini-omni-flash-preview` model (Omni Flash) in a tiny FastMCP server and packages it as an Antigravity CLI skill. You type "generate a video of a fox running through snow" into Antigravity, and it just... does it. Then you say "make it nighttime with snowfall" and it edits *the same video* without re-prompting the whole scene. It can also animate a still image, interpolate between two keyframes, restyle a video you already have — and when you're happy, upload the result to YouTube. Without leaving your terminal.
 
 ## Background: why another video tool?
 
@@ -30,10 +30,10 @@ And on top of all five sits the stateful layer: every one of those calls (made w
 
 Three practical realities to know going in: generation is **synchronous and slow** (the call blocks until the video is ready), it's **billable per generation**, and outputs get big fast — past ~4 MB you want File-API delivery instead of inline base64. The server and skill below exist largely to absorb those realities for you.
 
-This repo glues all of that into **Claude Code**, so your coding agent can generate and iteratively refine videos as a natural part of a session. It ships as two things in one repo:
+This repo glues all of that into **Antigravity CLI**, so your coding agent can generate and iteratively refine videos as a natural part of a session. It ships as two things in one repo:
 
 1. A **Model Context Protocol (MCP) server** (`omni-video-agent`, a single-file FastMCP app in `server.py`) exposing exactly eight tools.
-2. A **Claude Code skill** (`omni-video`) that teaches Claude *when* and *how* to use those tools well.
+2. An **Antigravity skill** (`omni-video`) that teaches the agent *when* and *how* to use those tools well.
 
 ## The Interactions API: video with a memory
 
@@ -149,9 +149,9 @@ get_help() -> str
 
 No parameters. Returns the full tool catalog, delivery-mode guidance, and a cinematic prompting guide — so an agent (or a curious human) can orient without leaving the session.
 
-## And what's a Claude Code *skill*?
+## And what's an Antigravity *skill*?
 
-If MCP is the *hands* (the tools Claude can physically call), a **skill** is the *muscle memory* — a markdown file (`SKILL.md`) plus bundled resources that load into Claude's context and teach it the workflow: which tool to reach for, in what order, with which constraints.
+If MCP is the *hands* (the tools the agent can physically call), a **skill** is the *muscle memory* — a markdown file (`SKILL.md`) plus bundled resources that load into the agent's context and teach it the workflow: which tool to reach for, in what order, with which constraints.
 
 For `omni-video`, the skill encodes things like:
 
@@ -165,34 +165,35 @@ The skill also bundles the MCP server itself (`mcp/server.py`), its requirements
 
 ## Installing it: the "I just want it to work" edition
 
-You need three things: **Python 3.10+**, **Claude Code**, and a **Gemini API key** (free from [Google AI Studio](https://aistudio.google.com/)). Pick *one* of the paths below.
+You need three things: **Python 3.10+**, **Antigravity CLI** (or Claude Code), and a **Gemini API key** (free from [Google AI Studio](https://aistudio.google.com/)). Pick *one* of the paths below.
 
 ### Path A: The plugin marketplace (fewest keystrokes)
 
-Inside Claude Code, type:
+Inside your agent CLI, type:
 
 ```
-/plugin marketplace add xbill9/omni-skill-claude
-/plugin install omni-video@omni-skill-claude
+/plugin marketplace add xbill9/omni-skill-agy
+/plugin install omni-video@omni-skill-agy
 ```
 
-This installs the skill **and** auto-registers the MCP server. The plugin manifest carries no API key (as it should!) — the server reads `GEMINI_API_KEY` from your environment, so make sure it's exported before launching Claude Code.
+This installs the skill **and** auto-registers the MCP server. The plugin manifest carries no API key (as it should!) — the server reads `GEMINI_API_KEY` from your environment, so make sure it's exported before launching your session.
 
 ### Path B: Clone and bootstrap (this repo)
 
 ```bash
 # 1. Get the code
-git clone https://github.com/xbill9/omni-skill-claude.git
-cd omni-skill-claude
+git clone https://github.com/xbill9/omni-skill-agy.git
+cd omni-skill-agy
 
 # 2. One-command setup: installs deps, registers the MCP server
 #    in .mcp.json, and prompts for your API key (stored in ~/gemini.key)
 ./init.sh
 
-# 3. Restart Claude Code in this directory and approve the server
+# 3. Restart Antigravity in this directory and approve the server
 #    when prompted. Verify with:
 /mcp        # should list omni-video-agent
 ```
+
 
 That's genuinely it. `init.sh` is safe to rerun if anything looks off.
 
@@ -204,26 +205,25 @@ From a clone of the repo:
 make init TARGET=/path/to/your/project
 ```
 
-This copies the skill into `<project>/.claude/skills/omni-video/` and writes the `omni-video-agent` entry into that project's `.mcp.json`. It reuses `~/gemini.key` if you've set one up. Restart Claude Code in the target project, approve the server, done. Generated videos land in the project directory.
+This copies the skill into `<project>/.gemini/skills/omni-video/` and writes the `omni-video-agent` entry into that project's `.mcp.json`. It reuses `~/gemini.key` if you've set one up. Restart Antigravity CLI in the target project, approve the server, done. Generated videos land in the project directory.
 
 ### Path D: Docker (nothing on the host but Docker)
 
-The repo ships a Dockerfile that builds an image containing only the server and its deps — no keys, no Claude Code:
+The repo ships a Dockerfile that builds an image containing only the server and its deps — no keys, no CLI runtime:
 
 ```bash
 make docker-build   # builds xbill9/omni-video-agent
 
-claude mcp add omni-video-agent --env GEMINI_API_KEY="$(cat ~/gemini.key)" -- \
-  docker run --rm -i -e GEMINI_API_KEY -v "$PWD:$PWD" -w "$PWD" xbill9/omni-video-agent
+docker run --rm -i -e GEMINI_API_KEY -v "$PWD:$PWD" -w "$PWD" xbill9/omni-video-agent
 ```
 
 The `-v "$PWD:$PWD" -w "$PWD"` mount matters: the server saves videos to disk and reads local files for the image/video-input tools, so the container must see your project at the *same absolute path* as the host. (One caveat: `upload_to_youtube`'s first-run OAuth flow opens a browser, which containers famously don't have — run that one from a host install.)
 
 ### Troubleshooting, the whole guide
 
-- `/mcp` doesn't list the server → restart Claude Code in the project directory.
+- `/mcp` doesn't list the server → restart Antigravity CLI in the project directory.
 - The server won't start at all → the Gemini client is created at launch, so a missing key kills the process before it says hello. Run `source set_env.sh` (or export `GEMINI_API_KEY`) and restart.
-- Anything else → ask Claude to call `get_help`; failures come back as readable `🔴 ...` strings.
+- Anything else → ask the assistant to call `get_help`; failures come back as readable `🔴 ...` strings.
 
 ## Examples: a session in practice
 
@@ -231,7 +231,7 @@ Once installed, you talk to it in plain English. A real flow looks like:
 
 **You:** *"Generate a video of a red fox running through fresh snow at golden hour, 16:9."*
 
-Claude calls:
+Antigravity calls:
 
 ```python
 generate_video(
@@ -288,14 +288,14 @@ Both return interaction IDs too — so follow-up refinements switch to `edit_vid
 upload_to_youtube(
     video_path="./edit_1784759050.mp4",
     title="Fox in the Snow — generated with Omni Flash",
-    description="Generated and edited with the omni-video Claude Code skill.",
+    description="Generated and edited with the omni-video Antigravity skill.",
     privacy_status="unlisted",
 )
 # 🟢 Video successfully uploaded to YouTube!
 # • URL: https://www.youtube.com/watch?v=...
 ```
 
-First run, the tool walks you through the one-time OAuth setup (a `client_secrets.json` from Google Cloud Console; the token is cached after that). Prompt to published URL, all inside one Claude Code session.
+First run, the tool walks you through the one-time OAuth setup (a `client_secrets.json` from Google Cloud Console; the token is cached after that). Prompt to published URL, all inside one Antigravity session.
 
 ## Dogfooding: about that demo video 🐕🍖
 
@@ -303,8 +303,8 @@ If the term is new to you: **"eating your own dog food"** means using your own p
 
 This repo dogfoods itself at every layer:
 
-- The **skill is active inside its own repository** — open Claude Code in a clone and the `omni-video` skill and `omni-video-agent` server are already wired up, so every development session doubles as an integration test.
-- The **demo video for this article** was generated by the exact skill the article describes, from inside a Claude Code session in this repo. These are the real calls and the real, unedited output — the same fox example used throughout the article, run for keeps:
+- The **skill is active inside its own repository** — open Antigravity CLI in a clone and the `omni-video` skill and `omni-video-agent` server are already wired up, so every development session doubles as an integration test.
+- The **demo video for this article** was generated by the exact skill the article describes, from inside an Antigravity CLI session in this repo. These are the real calls and the real, unedited output — the same fox example used throughout the article, run for keeps:
 
 ```python
 generate_video(
@@ -345,7 +345,7 @@ Dogfooding is the cheapest credibility there is: no cherry-picked gallery, no "r
 
 ## Links
 
-- **Repo:** [github.com/xbill9/omni-skill-claude](https://github.com/xbill9/omni-skill-claude) (Apache-2.0)
+- **Repo:** [github.com/xbill9/omni-skill-agy](https://github.com/xbill9/omni-skill-agy) (Apache-2.0)
 - **Interactions API reference:** [ai.google.dev/api/interactions-api](https://ai.google.dev/api/interactions-api)
 - **Gemini Omni prompting guide:** [deepmind.google/models/gemini-omni/prompt-guide](https://deepmind.google/models/gemini-omni/prompt-guide/)
 - **Model Context Protocol:** [modelcontextprotocol.io](https://modelcontextprotocol.io)

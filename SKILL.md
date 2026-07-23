@@ -49,16 +49,16 @@ mcp/project-setup.sh --global                            # all projects (user sc
 ```
 
 Run `mcp/project-setup.sh --help` for all options (`--model`, `--server-name`,
-`--skip-deps`). Then restart Claude Code in the target project and approve the
+`--skip-deps`). Then restart Antigravity CLI in the target project and approve the
 server when prompted; `/mcp` should list `omni-video-agent`.
 
 Manual alternative:
 
 ```bash
-claude mcp add omni-video-agent \
+antigravity mcp add omni-video-agent \
   --env GEMINI_API_KEY=<key> \
   --env GEMINI_OMNI_MODEL=gemini-omni-flash-preview \
-  -- python .claude/skills/omni-video/mcp/server.py
+  -- python .gemini/skills/omni-video/mcp/server.py
 ```
 
 Plugin alternative — install from the marketplace (auto-registers the server

@@ -1,5 +1,5 @@
-# omni-video-agent — MCP stdio server for gemini-omni-flash-preview.
-# Contains only the MCP server and its open-source deps (no Claude Code, no keys).
+# Dockerfile — Omni Flash video FastMCP server container image
+# Contains only the MCP server and its open-source deps (no Antigravity CLI, no keys).
 # Run with -i (stdio transport) and pass the key via the environment:
 #   docker run --rm -i -e GEMINI_API_KEY xbill9/omni-video-agent
 # Mount your project at the same absolute path so saved-video paths are valid

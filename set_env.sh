@@ -23,12 +23,12 @@ GEMINI_API_KEY=$GEMINI_API_KEY
 GOOGLE_API_KEY=$GEMINI_API_KEY
 EOF
 
-source .env
+source .env 2>/dev/null || . ./.env
 
 echo "✅ Written API keys to $ENV_FILE"
 
 # Update MCP configs with the absolute path based on the current directory:
-#   .mcp.json                 -> Claude Code (macOS)
+#   .mcp.json                 -> Antigravity CLI / MCP config
 for CONFIG_FILE in "$CURRENT_DIR/.mcp.json" ; do
     if [ -f "$CONFIG_FILE" ]; then
         CONFIG_FILE="$CONFIG_FILE" CURRENT_DIR="$CURRENT_DIR" python3 -c "

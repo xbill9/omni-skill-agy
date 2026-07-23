@@ -16,7 +16,7 @@
 # The Gemini API key is read from ~/gemini.key when present and injected into the
 # server's env block. Otherwise the entry is written without a key and you must
 # run set_env.sh (or export GEMINI_API_KEY) — the server fails to start without one.
-set -euo pipefail
+set -uo pipefail
 
 SKILL_NAME="omni-video"
 SERVER_NAME="omni-video-agent"
@@ -27,17 +27,21 @@ TARGET=""
 
 usage() { sed -n '2,18p' "$0" | sed 's/^# \{0,1\}//'; }
 
+_exit() {
+    return "$1" 2>/dev/null || exit "$1"
+}
+
 while [ $# -gt 0 ]; do
     case "$1" in
         --global) GLOBAL=1 ;;
         --model) MODEL_NAME="$2"; shift ;;
         --server-name) SERVER_NAME="$2"; shift ;;
         --skip-deps) SKIP_DEPS=1 ;;
-        -h|--help) usage; exit 0 ;;
-        -*) echo "Unknown option: $1" >&2; usage; exit 1 ;;
+        -h|--help) usage; _exit 0 ;;
+        -*) echo "Unknown option: $1" >&2; usage; _exit 1 ;;
         *)
             if [ -n "$TARGET" ]; then
-                echo "Only one target directory may be given." >&2; exit 1
+                echo "Only one target directory may be given." >&2; _exit 1
             fi
             TARGET="$1"
             ;;
@@ -46,10 +50,10 @@ while [ $# -gt 0 ]; do
 done
 
 if [ "$GLOBAL" -eq 0 ] && [ -z "$TARGET" ]; then
-    usage; exit 1
+    usage; _exit 1
 fi
 if [ "$GLOBAL" -eq 1 ] && [ -n "$TARGET" ]; then
-    echo "--global and a target directory are mutually exclusive." >&2; exit 1
+    echo "--global and a target directory are mutually exclusive." >&2; _exit 1
 fi
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
@@ -57,10 +61,10 @@ SKILL_SRC="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 # --- Copy the skill into place ------------------------------------------------
 if [ "$GLOBAL" -eq 1 ]; then
-    DEST="$HOME/.claude/skills/$SKILL_NAME"
+    DEST="$HOME/.gemini/skills/$SKILL_NAME"
 else
     TARGET="$(cd "$TARGET" && pwd)"
-    DEST="$TARGET/.claude/skills/$SKILL_NAME"
+    DEST="$TARGET/.gemini/skills/$SKILL_NAME"
 fi
 
 mkdir -p "$DEST/mcp" "$DEST/references"
@@ -92,17 +96,17 @@ fi
 
 # --- Register the MCP server --------------------------------------------------
 if [ "$GLOBAL" -eq 1 ]; then
-    if command -v claude >/dev/null 2>&1; then
-        claude mcp remove --scope user "$SERVER_NAME" >/dev/null 2>&1 || true
-        ARGS=(claude mcp add --scope user "$SERVER_NAME"
+    if command -v antigravity >/dev/null 2>&1; then
+        antigravity mcp remove --scope user "$SERVER_NAME" >/dev/null 2>&1 || true
+        ARGS=(antigravity mcp add --scope user "$SERVER_NAME"
               --env "GEMINI_OMNI_MODEL=$MODEL_NAME")
         [ -n "$API_KEY" ] && ARGS+=(--env "GEMINI_API_KEY=$API_KEY" --env "GOOGLE_API_KEY=$API_KEY")
         ARGS+=(-- python3 "$DEST/mcp/server.py")
         "${ARGS[@]}"
         echo "✅ Registered '$SERVER_NAME' at user scope."
     else
-        echo "⚠️  'claude' CLI not found — register manually:"
-        echo "    claude mcp add --scope user $SERVER_NAME -- python3 $DEST/mcp/server.py"
+        echo "ℹ️  Register manually with your MCP client or in .mcp.json:"
+        echo "    python3 $DEST/mcp/server.py"
     fi
 else
     CONFIG_FILE="$TARGET/.mcp.json" DEST="$DEST" SERVER_NAME="$SERVER_NAME" \
@@ -137,7 +141,7 @@ EOF
 fi
 
 echo ""
-echo "Done. Restart Claude Code in the target project and approve the server;"
+echo "Done. Restart Antigravity CLI in the target project and approve the server;"
 echo "/mcp should list '$SERVER_NAME'."
 echo "Note: generated videos are saved to the directory the server runs from"
-echo "(the Claude Code project directory)."
+echo "(the project directory)."

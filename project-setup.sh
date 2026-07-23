@@ -13,23 +13,29 @@
 # See mcp/project-setup.sh --help for all options
 # (--model, --server-name, --skip-deps).
 
-set -euo pipefail
+set -uo pipefail
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-INSTALLER="$SCRIPT_DIR/mcp/project-setup.sh"
+_project_setup_main() {
+    local SCRIPT_DIR INSTALLER f
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    INSTALLER="$SCRIPT_DIR/mcp/project-setup.sh"
 
-if [ ! -f "$INSTALLER" ]; then
-    echo "error: mcp/project-setup.sh not found next to this script" >&2
-    exit 1
-fi
-
-# The repo-root server.py and requirements.txt are authoritative; the installer
-# copies the mcp/ snapshot into target projects, so bring it up to date first.
-for f in server.py requirements.txt; do
-    if ! cmp -s "$SCRIPT_DIR/$f" "$SCRIPT_DIR/mcp/$f"; then
-        cp "$SCRIPT_DIR/$f" "$SCRIPT_DIR/mcp/$f"
-        echo "==> refreshed mcp/$f from repo-root $f"
+    if [ ! -f "$INSTALLER" ]; then
+        echo "error: mcp/project-setup.sh not found next to this script" >&2
+        return 1
     fi
-done
 
-exec bash "$INSTALLER" "$@"
+    # The repo-root server.py and requirements.txt are authoritative; the installer
+    # copies the mcp/ snapshot into target projects, so bring it up to date first.
+    for f in server.py requirements.txt; do
+        if ! cmp -s "$SCRIPT_DIR/$f" "$SCRIPT_DIR/mcp/$f"; then
+            cp "$SCRIPT_DIR/$f" "$SCRIPT_DIR/mcp/$f"
+            echo "==> refreshed mcp/$f from repo-root $f"
+        fi
+    done
+
+    bash "$INSTALLER" "$@"
+}
+
+_project_setup_main "$@"
+

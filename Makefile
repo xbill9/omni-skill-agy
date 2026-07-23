@@ -1,7 +1,7 @@
 # Omni Flash video agent — build, test, and skill-packaging targets
 
 SKILL_NAME := omni-video
-SKILL_DIR  := .claude/skills/$(SKILL_NAME)
+SKILL_DIR  := .gemini/skills/$(SKILL_NAME)
 PLUGIN_DIR := skills/$(SKILL_NAME)
 DIST_DIR   := dist
 IMAGE      := xbill9/omni-video-agent
@@ -23,7 +23,7 @@ help:
 	@echo "  make clean         - Remove Python caches"
 	@echo "  make skill         - Refresh $(SKILL_NAME) skill snapshots from the root sources"
 	@echo "                       (mcp/ snapshot, $(SKILL_DIR), plugin copy in skills/)"
-	@echo "  make skill-install - Refresh + copy the skill to ~/.claude/skills (all projects)"
+	@echo "  make skill-install - Refresh + copy the skill to ~/.gemini/skills (all projects)"
 	@echo "  make skill-package - Refresh + build $(DIST_DIR)/$(SKILL_NAME)-skill.zip"
 	@echo "  make init TARGET=/path/to/project [ARGS='--model <name>']"
 	@echo "                     - Refresh + install skill AND register the omni-video-agent MCP"
@@ -41,7 +41,7 @@ run:
 test:
 	python test_agent.py
 
-# Lint the repo-root sources (mcp/, .claude/skills/ and skills/ hold generated
+# Lint the repo-root sources (mcp/, .gemini/skills/ and skills/ hold generated
 # copies — lint the sources, not the copies).
 lint:
 	@command -v ruff >/dev/null || { echo "ruff not found; install with: pip install ruff"; exit 1; }
@@ -62,10 +62,10 @@ skill:
 	@echo "Synced plugin copy -> $(PLUGIN_DIR)"
 
 skill-install: skill
-	mkdir -p $(HOME)/.claude/skills
-	rm -rf $(HOME)/.claude/skills/$(SKILL_NAME)
-	cp -r $(SKILL_DIR) $(HOME)/.claude/skills/$(SKILL_NAME)
-	@echo "Installed to $(HOME)/.claude/skills/$(SKILL_NAME)"
+	mkdir -p $(HOME)/.gemini/skills
+	rm -rf $(HOME)/.gemini/skills/$(SKILL_NAME)
+	cp -r $(SKILL_DIR) $(HOME)/.gemini/skills/$(SKILL_NAME)
+	@echo "Installed to $(HOME)/.gemini/skills/$(SKILL_NAME)"
 
 skill-package: skill
 	mkdir -p $(DIST_DIR)
