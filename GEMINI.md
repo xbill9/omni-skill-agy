@@ -150,4 +150,4 @@ The server exposes a `get_help` tool with the full tool reference, delivery-mode
 - [Interactions API Reference Guide](https://ai.google.dev/api/interactions-api)
 - [Raw Interactions API Details](https://ai.google.dev/api/interactions.md.txt)
 - [Gemini Omni prompting guide](https://deepmind.google/models/gemini-omni/prompt-guide/)
-- [Project repository](https://github.com/xbill9/omni-skill-claude) — the `omni-video-agent` MCP server ([server.py](server.py)), the `omni-video` Claude Code skill ([SKILL.md](SKILL.md)), and setup docs ([README.md](README.md))
+- [Project repository](https://github.com/xbill9/omni-skill-agy) — the `omni-video-agent` MCP server ([server.py](server.py)), the `omni-video` skill ([SKILL.md](SKILL.md)), and setup docs ([README.md](README.md))
