@@ -1,6 +1,6 @@
 {
-  "name": "omni-skill-claude",
-  "description": "Claude Code plugins for Gemini Omni Flash video generation: the omni-video skill and omni-video-agent MCP server for gemini-omni-flash-preview.",
+  "name": "omni-skill-agy",
+  "description": "Antigravity and AI Agent skills/plugins for Gemini Omni Flash video generation: the omni-video skill and omni-video-agent MCP server for gemini-omni-flash-preview.",
   "owner": {
     "name": "xbill9",
     "url": "https://github.com/xbill9"

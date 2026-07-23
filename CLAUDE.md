@@ -9,7 +9,7 @@ This repository packages one Claude Code skill (`omni-video`) and one **Model Co
 1. **Generate videos:** text-to-video with `gemini-omni-flash-preview` (Omni Flash) via the stateful Interactions API, with configurable aspect ratio and delivery mode.
 2. **Edit iteratively:** multi-turn stateful edits chained by interaction ID (`edit_video`), plus image-driven generation (animate a still, interpolate keyframes, subject references), local-video restyling via the Gemini File API, and YouTube publishing.
 
-The tool surface is exactly eight tools: `generate_video`, `edit_video`, `animate_image`, `interpolate_images`, `generate_with_subjects`, `edit_user_video`, `upload_to_youtube`, `get_help`. Public repo: [github.com/xbill9/omni-skill-claude](https://github.com/xbill9/omni-skill-claude), Apache-2.0 (`LICENSE` — keep it in sync with the license declared in `.claude-plugin/plugin.json`).
+The tool surface is exactly eight tools: `generate_video`, `edit_video`, `animate_image`, `interpolate_images`, `generate_with_subjects`, `edit_user_video`, `upload_to_youtube`, `get_help`. Public repo: [github.com/xbill9/omni-skill-agy](https://github.com/xbill9/omni-skill-agy), Apache-2.0 (`LICENSE` — keep it in sync with the license declared in `.claude-plugin/plugin.json`).
 
 ## Repository Layout & the Snapshot Sync Model
 
@@ -22,7 +22,7 @@ The repo-root files are authoritative; the skill is distributed as generated cop
   - `.claude/skills/omni-video/` — the assembled skill (active when working in this repo)
   - `skills/omni-video/` — full copy of the skill in plugin layout (for the marketplace)
 - **Generated, gitignored:** `.mcp.json` and `.env` (both embed the Gemini API key) — created by `./init.sh` on first run; `set_env.sh` injects the key. `client_secrets.json` and `token.pickle` (YouTube OAuth credentials, created next to the server on first `upload_to_youtube` run) are gitignored too. Never commit any of them or hand-edit them back into git. The key itself persists in `~/gemini.key`.
-- **Plugin marketplace:** `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` make the repo installable via `/plugin marketplace add xbill9/omni-skill-claude`. The plugin auto-registers the `omni-video-agent` server (no key in the manifest — the server reads `GEMINI_API_KEY` from the environment). Validate changes with `claude plugin validate .`
+- **Plugin marketplace:** `.claude-plugin/plugin.json` + `.claude-plugin/marketplace.json` make the repo installable via `/plugin marketplace add xbill9/omni-skill-agy`. The plugin auto-registers the `omni-video-agent` server (no key in the manifest — the server reads `GEMINI_API_KEY` from the environment). Validate changes with `claude plugin validate .`
 - **Distribution zip:** `dist/omni-video-skill.zip`, built by `make skill-package`; committed so the raw-GitHub-URL install works — rebuild it when the skill changes.
 
 ## Common Commands

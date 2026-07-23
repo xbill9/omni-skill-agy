@@ -6,8 +6,8 @@
     "name": "xbill9",
     "url": "https://github.com/xbill9"
   },
-  "homepage": "https://github.com/xbill9/omni-skill-claude",
-  "repository": "https://github.com/xbill9/omni-skill-claude",
+  "homepage": "https://github.com/xbill9/omni-skill-agy",
+  "repository": "https://github.com/xbill9/omni-skill-agy",
   "license": "Apache-2.0",
   "keywords": ["gemini", "video-generation", "omni-flash", "mcp", "interactions-api", "youtube"],
   "mcpServers": {

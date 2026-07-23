@@ -66,8 +66,8 @@ via the plugin manifest; the pip deps and API key are still required, and the
 server reads the key from the environment):
 
 ```
-/plugin marketplace add xbill9/omni-skill-claude
-/plugin install omni-video@omni-skill-claude
+/plugin marketplace add xbill9/omni-skill-agy
+/plugin install omni-video@omni-skill-agy
 ```
 
 Requires: `pip install -r mcp/requirements.txt` and a Gemini API key. The

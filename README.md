@@ -45,8 +45,8 @@ The MCP server checks the following environment variables on startup:
 Ensure you have Python 3.10+ installed, then clone the repo and install the required dependencies using the [Makefile](Makefile) or pip:
 
 ```bash
-git clone https://github.com/xbill9/omni-skill-claude.git
-cd omni-skill-claude
+git clone https://github.com/xbill9/omni-skill-agy.git
+cd omni-skill-agy
 make install
 # or
 pip install -r requirements.txt
@@ -266,8 +266,8 @@ The installer reuses `~/gemini.key` (written by `set_env.sh`) when present. Rest
 The repo is also packaged as a Claude Code plugin (`.claude-plugin/plugin.json` + `marketplace.json`), which installs the skill **and** auto-registers the `omni-video-agent` MCP server:
 
 ```
-/plugin marketplace add xbill9/omni-skill-claude
-/plugin install omni-video@omni-skill-claude
+/plugin marketplace add xbill9/omni-skill-agy
+/plugin install omni-video@omni-skill-agy
 ```
 
 The plugin manifest carries no API key — the server reads `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) from the environment, so run `source set_env.sh` first. Validate manifest changes with `claude plugin validate .`; a standalone zip of the skill is kept at `dist/omni-video-skill.zip` (rebuild with `make skill-package`).
