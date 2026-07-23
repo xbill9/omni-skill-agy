@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+*.jpg
+!devto-cover.jpg
+*.png
+*.webp
+.agents/
+.ruff_cache
+.mypy_cache
+.env
+.mcp.json
+*.mp4
+client_secrets.json
+youtube.json
+token.pickle

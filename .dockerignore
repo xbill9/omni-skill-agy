@@ -1,0 +1,5 @@
+# Only requirements.txt and server.py are copied into the image, but keep the
+# build context minimal and make key-carrying files impossible to COPY.
+*
+!requirements.txt
+!server.py
